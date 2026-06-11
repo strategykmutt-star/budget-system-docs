@@ -1,0 +1,89 @@
+{
+  "meta": {
+    "title": "ฐานข้อมูลสูตรค่า K (Escalation Factor)",
+    "source": "เอกสารอบรม 2.2 ค่า K — กองมาตรฐานงบประมาณ 1 สำนักงบประมาณ (11 มิ.ย. 2569)",
+    "legalRef": "มติ ครม. ว 109 ลงวันที่ 22 ส.ค. 2532 และ ว 194 ลงวันที่ 14 มิ.ย. 2559",
+    "mainFormula": "P = Po x K   (P=เงินที่จ่ายจริง, Po=ราคาตามสัญญา, K=Escalation Factor)",
+    "kFormula": "K = constant + Σ ( coef_i x ( index_t_i / index_o_i ) )",
+    "indexNote": "index_t = ดัชนีราคา ณ เดือนส่งมอบงาน, index_o = ดัชนีราคา ณ เดือนเปิดซองราคา",
+    "indexSource": "กรมการค้าภายใน กระทรวงพาณิชย์ — http://www.price.moc.go.th",
+    "deadBand": { "low": 0.96, "high": 1.04, "rule": "ถ้า 0.96 <= K <= 1.04 ไม่จ่ายและไม่เรียกคืน (เปลี่ยนแปลงไม่เกิน ±4%)" },
+    "rounding": "ปัด K เป็น 3 ตำแหน่งทศนิยม",
+    "claimWindowDays": 90,
+    "approvalThresholdTHB": 50000000,
+    "caveats": [
+      "ตัวเลขถอดจากภาพสแกน (OCR) — ทุกสูตรผลรวมสัมประสิทธิ์ = 1.00 และตรวจซ้ำกับภาพความละเอียดสูงแล้ว แต่ควรเทียบกับต้นฉบับก่อนใช้คำนวณจริง",
+      "ครบ 35/35 สูตร (5 หมวด): หมวด1=1, หมวด2=3, หมวด3=7, หมวด4=7, หมวด5=17",
+      "วิธีคิดเงินชดเชย: แนวปฏิบัติมาตรฐานใช้ (K-1) x ค่างาน เมื่อ |K-1| > 0.04 — แต่สไลด์ตัวอย่างบางหน้าแสดง (K-1.04)/(K-0.96) ต้องยืนยันกับหนังสือ สงป.",
+      "นิยามตัวแปร (โดยเฉพาะ M/S/E/F) ยังต้องยืนยันการ map กับรหัสดัชนีของกระทรวงพาณิชย์"
+    ]
+  },
+  "variables": {
+    "I":   "ดัชนีราคาค่าแรง/แรงงาน",
+    "C":   "ดัชนีราคาซีเมนต์",
+    "M":   "ดัชนีราคาวัสดุก่อสร้าง (ไม่รวมเหล็กและซีเมนต์) — ยืนยันนิยาม",
+    "S":   "ดัชนีราคาเหล็กและผลิตภัณฑ์เหล็ก — ยืนยันนิยาม",
+    "A":   "ดัชนีราคาผิวทางแอสฟัลต์",
+    "E":   "ดัชนีราคาน้ำมันเชื้อเพลิง/ดีเซล (เครื่องจักร) — ยืนยันนิยาม",
+    "F":   "ดัชนีราคาน้ำมันดีเซล/ค่าขนส่ง — ยืนยันนิยาม",
+    "G":   "ดัชนีราคาเหล็กแผ่นเรียบ/เหล็กกล้า",
+    "GIP": "ดัชนีราคาท่อเหล็กอาบสังกะสี (Galvanized Iron Pipe)",
+    "AC":  "ดัชนีราคาท่อ Asbestos Cement",
+    "PVC": "ดัชนีราคาท่อ PVC",
+    "PE":  "ดัชนีราคาท่อ HDPE (Polyethylene)",
+    "W":   "ดัชนีราคาสายไฟฟ้า"
+  },
+  "categories": [
+    { "id": 1, "name": "งานอาคาร" },
+    { "id": 2, "name": "งานดิน" },
+    { "id": 3, "name": "งานทาง" },
+    { "id": 4, "name": "งานชลประทาน" },
+    { "id": 5, "name": "งานระบบสาธารณูปโภค" }
+  ],
+  "formulas": [
+    { "code": "K1",    "cat": 1, "name": "งานอาคาร", "constant": 0.25, "terms": [ {"coef":0.15,"var":"I"}, {"coef":0.10,"var":"C"}, {"coef":0.40,"var":"M"}, {"coef":0.10,"var":"S"} ] },
+
+    { "code": "K2.1",  "cat": 2, "name": "งานดิน", "constant": 0.30, "terms": [ {"coef":0.10,"var":"I"}, {"coef":0.40,"var":"E"}, {"coef":0.20,"var":"F"} ] },
+    { "code": "K2.2",  "cat": 2, "name": "งานหินเรียง/หินทิ้ง", "constant": 0.40, "terms": [ {"coef":0.20,"var":"I"}, {"coef":0.20,"var":"M"}, {"coef":0.20,"var":"F"} ] },
+    { "code": "K2.3",  "cat": 2, "name": "งานเจาะระเบิดหิน", "constant": 0.45, "terms": [ {"coef":0.15,"var":"I"}, {"coef":0.10,"var":"M"}, {"coef":0.20,"var":"E"}, {"coef":0.10,"var":"F"} ] },
+
+    { "code": "K3.1",  "cat": 3, "name": "Prime/Tack/Seal Coat", "constant": 0.30, "terms": [ {"coef":0.40,"var":"A"}, {"coef":0.20,"var":"E"}, {"coef":0.10,"var":"F"} ] },
+    { "code": "K3.2",  "cat": 3, "name": "Surface Treatment/Slurry Seal", "constant": 0.30, "terms": [ {"coef":0.10,"var":"M"}, {"coef":0.30,"var":"A"}, {"coef":0.20,"var":"E"}, {"coef":0.10,"var":"F"} ] },
+    { "code": "K3.3",  "cat": 3, "name": "Asphaltic Concrete/Penetration Macadam", "constant": 0.30, "terms": [ {"coef":0.10,"var":"M"}, {"coef":0.40,"var":"A"}, {"coef":0.10,"var":"E"}, {"coef":0.10,"var":"F"} ] },
+    { "code": "K3.4",  "cat": 3, "name": "ผิวถนนคอนกรีตเสริมเหล็ก", "constant": 0.30, "terms": [ {"coef":0.10,"var":"I"}, {"coef":0.35,"var":"C"}, {"coef":0.10,"var":"M"}, {"coef":0.15,"var":"S"} ] },
+    { "code": "K3.5",  "cat": 3, "name": "ท่อระบายน้ำ คสล./บ่อพัก", "constant": 0.35, "terms": [ {"coef":0.20,"var":"I"}, {"coef":0.15,"var":"C"}, {"coef":0.15,"var":"M"}, {"coef":0.15,"var":"S"} ] },
+    { "code": "K3.6",  "cat": 3, "name": "โครงสร้างคอนกรีตเสริมเหล็ก", "constant": 0.30, "terms": [ {"coef":0.10,"var":"I"}, {"coef":0.15,"var":"C"}, {"coef":0.20,"var":"M"}, {"coef":0.25,"var":"S"} ] },
+    { "code": "K3.7",  "cat": 3, "name": "โครงสร้างเหล็ก", "constant": 0.25, "terms": [ {"coef":0.10,"var":"I"}, {"coef":0.05,"var":"C"}, {"coef":0.20,"var":"M"}, {"coef":0.40,"var":"S"} ] },
+
+    { "code": "K4.1",  "cat": 4, "name": "อาคารชลประทาน (ไม่รวมบานเหล็ก)", "constant": 0.40, "terms": [ {"coef":0.20,"var":"I"}, {"coef":0.10,"var":"C"}, {"coef":0.10,"var":"M"}, {"coef":0.20,"var":"S"} ] },
+    { "code": "K4.2",  "cat": 4, "name": "อาคารชลประทาน (รวมบานเหล็ก)", "constant": 0.35, "terms": [ {"coef":0.20,"var":"I"}, {"coef":0.10,"var":"C"}, {"coef":0.10,"var":"M"}, {"coef":0.25,"var":"S"} ] },
+    { "code": "K4.3",  "cat": 4, "name": "บานระบาย TRASHRACK/STEEL LINER", "constant": 0.35, "terms": [ {"coef":0.20,"var":"I"}, {"coef":0.45,"var":"G"} ] },
+    { "code": "K4.4",  "cat": 4, "name": "เหล็กเสริมคอนกรีต/ANCHOR BAR", "constant": 0.25, "terms": [ {"coef":0.15,"var":"I"}, {"coef":0.60,"var":"S"} ] },
+    { "code": "K4.5",  "cat": 4, "name": "คอนกรีตไม่รวมเหล็ก", "constant": 0.40, "terms": [ {"coef":0.15,"var":"I"}, {"coef":0.25,"var":"C"}, {"coef":0.20,"var":"M"} ] },
+    { "code": "K4.6",  "cat": 4, "name": "งานเจาะ (ชลประทาน)", "constant": 0.40, "terms": [ {"coef":0.20,"var":"I"}, {"coef":0.10,"var":"M"}, {"coef":0.20,"var":"E"}, {"coef":0.10,"var":"F"} ] },
+    { "code": "K4.7",  "cat": 4, "name": "งานอัดฉีดน้ำปูน (cement grouting)", "constant": 0.00, "terms": [ {"coef":1.00,"var":"C"} ], "note": "ค่าอัดฉีดน้ำปูนเพิ่ม/ลด ใช้ดัชนีซีเมนต์ Ct/Co โดยตรง" },
+
+    { "code": "K5.1.1", "cat": 5, "name": "ท่อ AC/PVC (ผลิตท่อ+อุปกรณ์เอง)", "constant": 0.50, "terms": [ {"coef":0.25,"var":"I"}, {"coef":0.25,"var":"M"} ] },
+    { "code": "K5.1.2", "cat": 5, "name": "ท่อ AC", "constant": 0.40, "terms": [ {"coef":0.10,"var":"I"}, {"coef":0.10,"var":"M"}, {"coef":0.40,"var":"AC"} ] },
+    { "code": "K5.1.3", "cat": 5, "name": "ท่อ PVC", "constant": 0.40, "terms": [ {"coef":0.10,"var":"I"}, {"coef":0.10,"var":"M"}, {"coef":0.40,"var":"PVC"} ] },
+    { "code": "K5.2.1", "cat": 5, "name": "ท่อเหล็กเหนียว", "constant": 0.40, "terms": [ {"coef":0.10,"var":"I"}, {"coef":0.15,"var":"M"}, {"coef":0.20,"var":"E"}, {"coef":0.15,"var":"F"} ] },
+    { "code": "K5.2.2", "cat": 5, "name": "Transmission Conduit", "constant": 0.40, "terms": [ {"coef":0.10,"var":"I"}, {"coef":0.10,"var":"M"}, {"coef":0.10,"var":"E"}, {"coef":0.30,"var":"GIP"} ] },
+    { "code": "K5.2.3", "cat": 5, "name": "ท่อ HDPE", "constant": 0.50, "terms": [ {"coef":0.10,"var":"I"}, {"coef":0.10,"var":"M"}, {"coef":0.30,"var":"PE"} ] },
+    { "code": "K5.3",   "cat": 5, "name": "อุโมงค์ส่งน้ำ/Secondary Lining", "constant": 0.40, "terms": [ {"coef":0.10,"var":"I"}, {"coef":0.15,"var":"E"}, {"coef":0.35,"var":"GIP"} ] },
+    { "code": "K5.4",   "cat": 5, "name": "ท่อ PVC หุ้มคอนกรีต", "constant": 0.30, "terms": [ {"coef":0.10,"var":"I"}, {"coef":0.20,"var":"C"}, {"coef":0.05,"var":"M"}, {"coef":0.05,"var":"S"}, {"coef":0.30,"var":"PVC"} ] },
+    { "code": "K5.5",   "cat": 5, "name": "ท่อ PVC กลบทราย", "constant": 0.25, "terms": [ {"coef":0.05,"var":"I"}, {"coef":0.05,"var":"M"}, {"coef":0.65,"var":"PVC"} ] },
+    { "code": "K5.6",   "cat": 5, "name": "ท่อเหล็กอาบสังกะสี", "constant": 0.25, "terms": [ {"coef":0.25,"var":"I"}, {"coef":0.50,"var":"GIP"} ] },
+    { "code": "K5.7.1", "cat": 5, "name": "กฟผ. สายส่ง+อุปกรณ์", "constant": 0.60, "terms": [ {"coef":0.25,"var":"I"}, {"coef":0.15,"var":"F"} ] },
+    { "code": "K5.7.2", "cat": 5, "name": "กฟผ. ฐานราก/Boundary Post", "constant": 0.35, "terms": [ {"coef":0.20,"var":"I"}, {"coef":0.20,"var":"C"}, {"coef":0.10,"var":"S"}, {"coef":0.15,"var":"F"} ] },
+    { "code": "K5.7.3", "cat": 5, "name": "กฟผ. ฐานรากสถานีไฟฟ้าย่อย", "constant": 0.50, "terms": [ {"coef":0.20,"var":"I"}, {"coef":0.15,"var":"C"}, {"coef":0.15,"var":"S"} ] },
+    { "code": "K5.8.1", "cat": 5, "name": "เสาเข็มอัดแรงสำเร็จรูป", "constant": 0.35, "terms": [ {"coef":0.15,"var":"I"}, {"coef":0.20,"var":"C"}, {"coef":0.30,"var":"S"} ] },
+    { "code": "K5.8.2", "cat": 5, "name": "เสาเข็ม Cast in Place", "constant": 0.30, "terms": [ {"coef":0.10,"var":"I"}, {"coef":0.25,"var":"C"}, {"coef":0.35,"var":"S"} ] },
+    { "code": "K5.9.1", "cat": 5, "name": "สายส่ง 69-115KV (ผู้รับจ้างจัดหาเอง)", "constant": 0.80, "terms": [ {"coef":0.05,"var":"I"}, {"coef":0.10,"var":"M"}, {"coef":0.05,"var":"F"} ] },
+    { "code": "K5.9.2", "cat": 5, "name": "สายส่ง 69-115KV (ผู้ว่าจ้างจัดหาวัสดุ)", "constant": 0.45, "terms": [ {"coef":0.05,"var":"I"}, {"coef":0.20,"var":"M"}, {"coef":0.05,"var":"F"}, {"coef":0.25,"var":"W"} ] }
+  ],
+  "excludedWork": {
+    "K1":  ["ลิฟต์", "หม้อแปลง", "ปั๊มน้ำ", "เข็มพืด", "ระบบดับเพลิง", "นั่งร้าน"],
+    "K3":  ["ไฟฟ้าแสงสว่าง", "สัญญาณไฟจราจร", "ตีเส้น/ปลูกหญ้า", "ภูมิทัศน์", "ศาลาผู้โดยสาร", "ป้ายจราจร", "ราวกันอันตราย", "SHEET PILE"],
+    "ทั่วไป": ["งานที่เกิดจากความเสียหาย/ภัยธรรมชาติ (เช่น ต้นไม้ล้มทับ)"]
+  }
+}

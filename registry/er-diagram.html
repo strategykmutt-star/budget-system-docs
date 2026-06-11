@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ER Diagram — ระบบทะเบียนงบประมาณ (8 ชั้น)</title>
+<style>
+  :root{--ink:#1f2937;--muted:#64748b;--line:#e2e8f0;--bg:#ffffff;--soft:#f8fafc;--teal:#0e7c86;--tealbg:#eef7f8;}
+  *{box-sizing:border-box}
+  body{font-family:'Sarabun','Noto Sans Thai',system-ui,-apple-system,'Segoe UI',sans-serif;color:var(--ink);
+       margin:0;background:#f1f5f9;line-height:1.55}
+  .wrap{max-width:1040px;margin:0 auto;padding:28px 20px 60px}
+  header h1{font-size:24px;margin:0 0 4px}
+  header p{color:var(--muted);margin:0 0 18px}
+  .card{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin:16px 0;
+        box-shadow:0 1px 2px rgba(15,23,42,.04)}
+  h2{font-size:18px;margin:6px 0 12px;border-left:4px solid var(--teal);padding-left:10px}
+  h3{font-size:15px;margin:18px 0 8px;color:#334155}
+  table{width:100%;border-collapse:collapse;font-size:13.5px;margin:6px 0}
+  th,td{border:1px solid var(--line);padding:7px 9px;text-align:left;vertical-align:top}
+  th{background:var(--soft);font-weight:700}
+  code,pre{font-family:'Cascadia Code',Consolas,ui-monospace,monospace}
+  pre{background:#0f172a;color:#e2e8f0;border-radius:10px;padding:16px;overflow:auto;font-size:12.5px;line-height:1.5}
+  pre .c{color:#7dd3fc} pre .k{color:#fca5a5} pre .n{color:#fcd34d}
+  .pill{display:inline-block;background:var(--tealbg);color:var(--teal);border:1px solid var(--teal);
+        border-radius:999px;padding:1px 9px;font-size:12px;font-weight:700}
+  .note{background:#fffbeb;border:1px solid #fcd34d;border-radius:10px;padding:12px 14px;font-size:13.5px}
+  .svgbox{overflow:auto;background:#fff;border:1px solid var(--line);border-radius:12px;padding:8px}
+  ol{margin:6px 0 6px 18px;padding:0} ol li{margin:4px 0}
+  footer{color:var(--muted);font-size:12.5px;margin-top:18px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>ER Diagram — ระบบทะเบียนงบประมาณ (8 ชั้น)</h1>
+    <p>อ้างอิงหน้าจอจริงจากเอกสารอบรม 11 มิ.ย. 2569 (โปรแกรม Bis65xxxx / Lao66b101) — ร่างสำหรับพัฒนาระบบ</p>
+  </header>
+
+  <div class="card">
+    <h2>แผนภาพความสัมพันธ์</h2>
+    <div class="svgbox">
+<svg viewBox="0 0 960 1200" xmlns="http://www.w3.org/2000/svg" style="min-width:900px;width:100%" role="img" aria-label="ER diagram ระบบทะเบียนงบประมาณ 8 ชั้น" font-family="'Sarabun','Noto Sans Thai',sans-serif">
+  <text x="32" y="30" font-size="19" font-weight="700" fill="#1f2937">โครงสร้างฐานข้อมูลทะเบียน 8 ชั้น</text>
+  <text x="32" y="50" font-size="12.5" fill="#64748b">PK = คีย์หลัก · FK = คีย์นอก · 1—N = หนึ่งต่อหลาย · ★ = ชั้นผลผลิต/โครงการ</text>
+  <g stroke="#94a3b8" stroke-width="1.4" fill="none">
+    <line x1="165" y1="156" x2="165" y2="210"/><line x1="290" y1="112" x2="355" y2="248"/>
+    <line x1="165" y1="322" x2="165" y2="372"/><line x1="355" y1="300" x2="290" y2="430"/>
+    <line x1="290" y1="300" x2="355" y2="560"/><line x1="290" y1="442" x2="355" y2="600"/>
+    <line x1="480" y1="464" x2="480" y2="520"/><line x1="480" y1="832" x2="480" y2="876"/>
+    <line x1="290" y1="922" x2="355" y2="922"/><line x1="690" y1="930" x2="605" y2="930"/>
+    <path d="M605 906 C 648 900, 648 884, 605 884"/>
+  </g>
+  <line x1="480" y1="676" x2="480" y2="720" stroke="#0e7c86" stroke-width="2.2"/>
+  <line x1="760" y1="156" x2="610" y2="548" stroke="#cbd5e1" stroke-width="1.3" stroke-dasharray="4 4"/>
+  <g fill="#94a3b8">
+    <circle cx="165" cy="208" r="3"/><circle cx="353" cy="248" r="3"/><circle cx="165" cy="370" r="3"/>
+    <circle cx="292" cy="428" r="3"/><circle cx="353" cy="558" r="3"/><circle cx="353" cy="598" r="3"/>
+    <circle cx="480" cy="518" r="3"/><circle cx="357" cy="922" r="3"/><circle cx="607" cy="884" r="3"/>
+    <circle cx="607" cy="930" r="3"/>
+  </g>
+  <circle cx="480" cy="718" r="3.2" fill="#0e7c86"/>
+  <g font-size="10.5" fill="#64748b">
+    <text x="171" y="184">1 ─ N</text><text x="300" y="180">1─N</text><text x="171" y="350">1 ─ N</text>
+    <text x="296" y="372">1─N</text><text x="300" y="424" fill="#0e7c86">1─N เจ้าของ</text><text x="300" y="520">1─N</text>
+    <text x="486" y="498">1─N</text><text x="486" y="858">1─N</text><text x="300" y="916">1─N</text>
+    <text x="628" y="916">1─N</text><text x="612" y="876" font-size="9.5">self · ระดับชั้น</text>
+    <text x="486" y="704" fill="#0e7c86" font-weight="700">1─N</text><text x="640" y="300" font-size="10">scope ทุกตาราง</text>
+  </g>
+  <g>
+    <rect x="40" y="64" width="250" height="92" rx="7" fill="#f8fafc" stroke="#e2e8f0"/><rect x="40" y="64" width="250" height="28" rx="7" fill="#fff" stroke="#e2e8f0"/>
+    <text x="52" y="83" font-size="13" font-weight="700" fill="#1f2937">1 · กระทรวง  ministry</text>
+    <text x="52" y="110" font-size="11.5" font-weight="700">PK  ministry_id</text><text x="52" y="130" font-size="11.5" fill="#475569">code(5) · 01000</text><text x="52" y="150" font-size="11.5" fill="#475569">name_th</text>
+  </g>
+  <g>
+    <rect x="690" y="64" width="230" height="92" rx="7" fill="#eef7f8" stroke="#0e7c86"/><rect x="690" y="64" width="230" height="28" rx="7" fill="#dceef0" stroke="#0e7c86"/>
+    <text x="702" y="83" font-size="12.5" font-weight="700" fill="#0e7c86">ปีงบประมาณ  ref_fiscal_year</text>
+    <text x="702" y="110" font-size="11.5" font-weight="700" fill="#0b5e66">PK  fiscal_year · 70</text><text x="702" y="130" font-size="11.5" fill="#3a6b6e">period_status (เปิด/ปิดรอบ)</text><text x="702" y="150" font-size="11" fill="#3a6b6e">★ ผูกทุกตารางทะเบียน</text>
+  </g>
+  <g>
+    <rect x="40" y="210" width="250" height="112" rx="7" fill="#f8fafc" stroke="#e2e8f0"/><rect x="40" y="210" width="250" height="28" rx="7" fill="#fff" stroke="#e2e8f0"/>
+    <text x="52" y="229" font-size="13" font-weight="700" fill="#1f2937">2 · หน่วยรับงบประมาณ  agency</text>
+    <text x="52" y="256" font-size="11.5" font-weight="700">PK  agency_id</text><text x="52" y="276" font-size="11.5" fill="#0e7c86">FK  ministry_id</text><text x="52" y="296" font-size="11.5" fill="#475569">code(5) · 01007</text><text x="52" y="316" font-size="11.5" fill="#475569">system_type · eB / BBL</text>
+  </g>
+  <g>
+    <rect x="355" y="210" width="250" height="112" rx="7" fill="#f8fafc" stroke="#e2e8f0"/><rect x="355" y="210" width="250" height="28" rx="7" fill="#fff" stroke="#e2e8f0"/>
+    <text x="367" y="229" font-size="12" font-weight="700" fill="#1f2937">4 · เป้าหมายบริการกระทรวง · Bis65I004</text>
+    <text x="367" y="256" font-size="11.5" font-weight="700">PK  min_target_id</text><text x="367" y="276" font-size="11.5" fill="#0e7c86">FK  ministry_id</text><text x="367" y="296" font-size="11.5" fill="#475569">code(2 ตัวอักษร) · BC</text><text x="367" y="316" font-size="11.5" fill="#475569">name_th</text>
+  </g>
+  <g>
+    <rect x="40" y="372" width="250" height="112" rx="7" fill="#f8fafc" stroke="#e2e8f0"/><rect x="40" y="372" width="250" height="28" rx="7" fill="#fff" stroke="#e2e8f0"/>
+    <text x="52" y="391" font-size="12" font-weight="700" fill="#1f2937">5 · เป้าหมายบริการหน่วยงาน · Bis65I005</text>
+    <text x="52" y="418" font-size="11.5" font-weight="700">PK  agy_target_id</text><text x="52" y="438" font-size="11.5" fill="#0e7c86">FK  agency_id</text><text x="52" y="458" font-size="11.5" fill="#0e7c86">FK  min_target_id</text><text x="52" y="478" font-size="11.5" fill="#475569">code(2) · 07</text>
+  </g>
+  <g>
+    <rect x="355" y="372" width="250" height="92" rx="7" fill="#f8fafc" stroke="#e2e8f0"/><rect x="355" y="372" width="250" height="28" rx="7" fill="#fff" stroke="#e2e8f0"/>
+    <text x="367" y="391" font-size="13" font-weight="700" fill="#1f2937">3 · แผนงาน  program</text>
+    <text x="367" y="418" font-size="11.5" font-weight="700">PK  program_id</text><text x="367" y="438" font-size="11" fill="#475569">prog_type (บุคลากร/พื้นฐาน/ยุทธ์/บูรณาการ)</text><text x="367" y="458" font-size="11.5" fill="#475569">code · name_th</text>
+  </g>
+  <g>
+    <rect x="355" y="520" width="250" height="156" rx="7" fill="#eef7f8" stroke="#0e7c86" stroke-width="2"/><rect x="355" y="520" width="250" height="30" rx="7" fill="#dceef0" stroke="#0e7c86"/>
+    <text x="367" y="540" font-size="12.5" font-weight="700" fill="#0b5e66">★ 6 · ผลผลิต/โครงการ · Bis65I009</text>
+    <text x="367" y="568" font-size="11.5" font-weight="700" fill="#0b5e66">PK  output_id</text><text x="367" y="588" font-size="11.5" fill="#0e7c86">FK  agency_id</text><text x="367" y="608" font-size="11.5" fill="#0e7c86">FK  agy_target_id</text><text x="367" y="628" font-size="11.5" fill="#0e7c86">FK  program_id</text><text x="367" y="648" font-size="11.5" fill="#3a6b6e">acct_code · 00-0244</text><text x="367" y="668" font-size="11.5" fill="#3a6b6e">op_type · 00=โครงการ / 07 / 08</text>
+  </g>
+  <g>
+    <rect x="355" y="720" width="250" height="112" rx="7" fill="#f8fafc" stroke="#e2e8f0"/><rect x="355" y="720" width="250" height="28" rx="7" fill="#fff" stroke="#e2e8f0"/>
+    <text x="367" y="739" font-size="13" font-weight="700" fill="#1f2937">7 · กิจกรรม · Bis65a001</text>
+    <text x="367" y="766" font-size="11.5" font-weight="700">PK  activity_id</text><text x="367" y="786" font-size="11.5" fill="#0e7c86">FK  output_id</text><text x="367" y="806" font-size="11.5" fill="#475569">seq_code · 1</text><text x="367" y="826" font-size="11.5" fill="#475569">name_th</text>
+  </g>
+  <g>
+    <rect x="355" y="876" width="250" height="176" rx="7" fill="#f8fafc" stroke="#e2e8f0"/><rect x="355" y="876" width="250" height="28" rx="7" fill="#fff" stroke="#e2e8f0"/>
+    <text x="367" y="895" font-size="13" font-weight="700" fill="#1f2937">8 · รายการ · Bis65a002</text>
+    <text x="367" y="922" font-size="11.5" font-weight="700">PK  item_id</text><text x="367" y="942" font-size="11.5" fill="#0e7c86">FK  activity_id</text><text x="367" y="962" font-size="11.5" fill="#0e7c86">FK  parent_item_id (self)</text><text x="367" y="982" font-size="11.5" fill="#0e7c86">FK  expense_cat_id</text><text x="367" y="1002" font-size="11.5" fill="#0e7c86">FK  area_id</text><text x="367" y="1022" font-size="11.5" fill="#475569">code(6) · 000337</text><text x="367" y="1042" font-size="11.5" fill="#475569">item_level · 1 / 2 / 3</text>
+  </g>
+  <g>
+    <rect x="40" y="876" width="250" height="92" rx="7" fill="#eef7f8" stroke="#0e7c86"/><rect x="40" y="876" width="250" height="28" rx="7" fill="#dceef0" stroke="#0e7c86"/>
+    <text x="52" y="895" font-size="12.5" font-weight="700" fill="#0b5e66">หมวดรายจ่าย (12) · ref_expense_category</text>
+    <text x="52" y="922" font-size="11.5" font-weight="700" fill="#0b5e66">PK  expense_cat_id</text><text x="52" y="942" font-size="11.5" fill="#3a6b6e">code · name_th</text><text x="52" y="962" font-size="10.5" fill="#3a6b6e">เงินเดือน…ครุภัณฑ์…เงินอุดหนุน…รายจ่ายอื่น</text>
+  </g>
+  <g>
+    <rect x="690" y="876" width="230" height="112" rx="7" fill="#eef7f8" stroke="#0e7c86"/><rect x="690" y="876" width="230" height="28" rx="7" fill="#dceef0" stroke="#0e7c86"/>
+    <text x="702" y="895" font-size="12.5" font-weight="700" fill="#0b5e66">จังหวัด/พื้นที่ · ref_area</text>
+    <text x="702" y="922" font-size="11.5" font-weight="700" fill="#0b5e66">PK  area_id</text><text x="702" y="942" font-size="11.5" fill="#3a6b6e">code · name_th</text><text x="702" y="962" font-size="11.5" fill="#3a6b6e">gps_lat / gps_long (e-BGIS)</text><text x="702" y="982" font-size="10.5" fill="#3a6b6e">ใช้กับ ครุภัณฑ์/ที่ดิน/สิ่งก่อสร้าง</text>
+  </g>
+  <g>
+    <rect x="40" y="1086" width="880" height="86" rx="8" fill="#fff" stroke="#e2e8f0"/>
+    <text x="56" y="1108" font-size="12.5" font-weight="700" fill="#1f2937">คอลัมน์ร่วมของทุกตารางทะเบียน (ชั้น 3–8)</text>
+    <text x="56" y="1128" font-size="11.5" fill="#475569">fiscal_year · code · name_th · start_date · end_date (NULL/9999 = เปิดอยู่) · row_status (ACTIVE/CLOSED) · created_by/at · updated_by/at</text>
+    <text x="56" y="1150" font-size="11.5" fill="#475569">ลบ = soft-close (row_status=CLOSED) เป็นหลัก · hard-delete เฉพาะผู้มีสิทธิ์ และเมื่อไม่มี child อ้างอิง · e-Budgeting แก้ได้ / BBL อ่านอย่างเดียว</text>
+  </g>
+</svg>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>หลักการออกแบบ</h2>
+    <table>
+      <tr><th>#</th><th>หลักการ</th><th>เหตุผลจากเอกสาร</th></tr>
+      <tr><td>1</td><td>ผูกปีงบประมาณทุกตาราง (<code>fiscal_year</code>)</td><td>ทุกจอกรองด้วย "ปี"; ปุ่ม "ค้นหาทะเบียนตามปี" = ยกยอดข้ามปี</td></tr>
+      <tr><td>2</td><td>Effective dating <code>start_date/end_date</code> (NULL = เปิดอยู่)</td><td>จอแสดงวันที่เริ่ม–สิ้นสุด, 99/99/99 = ไม่มีวันสิ้นสุด</td></tr>
+      <tr><td>3</td><td>Soft-close ก่อน hard-delete (<code>row_status</code>)</td><td>มีปุ่ม ปิด/เปิด-ปิด แยกจาก ลบ; ลบ "ตามสิทธิ์"</td></tr>
+      <tr><td>4</td><td>ห้ามลบเมื่อมี child (FK RESTRICT)</td><td>รักษา integrity ของสายโซ่ทะเบียน</td></tr>
+      <tr><td>5</td><td>แยกสิทธิ์ตามระบบ (<code>system_type</code>)</td><td>e-Budgeting แก้เอง / BBL อ่านอย่างเดียว</td></tr>
+      <tr><td>6</td><td>รายการเป็นต้นไม้ (<code>parent_item_id</code> + <code>item_level</code>)</td><td>จอ "ทะเบียนรายการ (ระดับชั้น)"</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>คอลัมน์ร่วม (ชั้น 3–8 ทุกตาราง)</h2>
+<pre><span class="c">fiscal_year</span>   smallint     NOT NULL REFERENCES ref_fiscal_year,
+<span class="c">code</span>          varchar(20)  NOT NULL,            <span class="k">-- รหัสตามรูปแบบแต่ละชั้น</span>
+<span class="c">name_th</span>       varchar(500) NOT NULL,
+<span class="c">start_date</span>    date         NOT NULL,
+<span class="c">end_date</span>      date         NULL,                <span class="k">-- NULL = เปิดอยู่ (จอแสดง 99/99/99)</span>
+<span class="c">row_status</span>    varchar(10)  NOT NULL DEFAULT <span class="n">'ACTIVE'</span>,  <span class="k">-- ACTIVE | CLOSED</span>
+<span class="c">created_by</span>    varchar(50)  NOT NULL,
+<span class="c">created_at</span>    timestamptz  NOT NULL DEFAULT now(),
+<span class="c">updated_by</span>    varchar(50)  NULL,
+<span class="c">updated_at</span>    timestamptz  NULL</pre>
+  </div>
+
+  <div class="card">
+    <h2>DDL ร่าง (PostgreSQL-style)</h2>
+<pre><span class="k">-- ===== ตารางอ้างอิง =====</span>
+CREATE TABLE ref_fiscal_year (
+  fiscal_year   smallint PRIMARY KEY,            <span class="k">-- 70</span>
+  period_status varchar(10) NOT NULL );          <span class="k">-- OPEN | CLOSED</span>
+
+CREATE TABLE ref_expense_category (              <span class="k">-- 12 หมวด</span>
+  expense_cat_id smallint PRIMARY KEY,
+  code varchar(10) NOT NULL UNIQUE,
+  name_th varchar(100) NOT NULL );               <span class="k">-- เงินเดือน...รายจ่ายอื่น</span>
+
+CREATE TABLE ref_area (
+  area_id integer PRIMARY KEY,
+  code varchar(10) NOT NULL UNIQUE, name_th varchar(150) NOT NULL,
+  gps_lat numeric(10,7), gps_long numeric(10,7) );  <span class="k">-- e-BGIS</span>
+
+<span class="k">-- ===== ชั้น 1–2 =====</span>
+CREATE TABLE ministry (
+  ministry_id integer PRIMARY KEY,
+  code varchar(5) NOT NULL UNIQUE, name_th varchar(255) NOT NULL );   <span class="k">-- 01000</span>
+
+CREATE TABLE agency (
+  agency_id integer PRIMARY KEY,
+  ministry_id integer NOT NULL REFERENCES ministry,
+  code varchar(5) NOT NULL UNIQUE, name_th varchar(255) NOT NULL,     <span class="k">-- 01007</span>
+  system_type varchar(5) NOT NULL DEFAULT <span class="n">'eB'</span> );          <span class="k">-- eB | BBL</span>
+
+<span class="k">-- ===== ชั้น 4: เป้าหมายบริการกระทรวง (Bis65I004) =====</span>
+CREATE TABLE ministry_service_target (
+  min_target_id bigserial PRIMARY KEY,
+  ministry_id integer NOT NULL REFERENCES ministry,
+  code varchar(2) NOT NULL,                       <span class="k">-- BC</span>
+  <span class="k">/* + คอลัมน์ร่วม */</span>
+  UNIQUE (fiscal_year, ministry_id, code) );
+
+<span class="k">-- ===== ชั้น 5: เป้าหมายบริการหน่วยงาน (Bis65I005) =====</span>
+CREATE TABLE agency_service_target (
+  agy_target_id bigserial PRIMARY KEY,
+  agency_id integer NOT NULL REFERENCES agency,
+  min_target_id bigint NOT NULL REFERENCES ministry_service_target,  <span class="k">-- M:1</span>
+  code varchar(2) NOT NULL,                       <span class="k">-- 07</span>
+  UNIQUE (fiscal_year, agency_id, code) );
+
+<span class="k">-- ===== ชั้น 3: แผนงาน =====</span>
+CREATE TABLE program (
+  program_id bigserial PRIMARY KEY,
+  prog_type varchar(20) NOT NULL,    <span class="k">-- บุคลากร|พื้นฐาน|ยุทธศาสตร์|บูรณาการ</span>
+  code varchar(20) NOT NULL, UNIQUE (fiscal_year, code) );
+
+<span class="k">-- ===== ชั้น 6: ผลผลิต/โครงการ (Bis65I009) ★ =====</span>
+CREATE TABLE output_project (
+  output_id bigserial PRIMARY KEY,
+  agency_id integer NOT NULL REFERENCES agency,
+  agy_target_id bigint NOT NULL REFERENCES agency_service_target,
+  program_id bigint NOT NULL REFERENCES program,
+  acct_code varchar(7) NOT NULL,     <span class="k">-- XX-XXXX เช่น 00-0244</span>
+  op_type varchar(2) NOT NULL,       <span class="k">-- 00=โครงการ|07=บุคลากร|08=กองทุน</span>
+  UNIQUE (fiscal_year, agency_id, acct_code) );
+
+<span class="k">-- ===== ชั้น 7: กิจกรรม (Bis65a001) =====</span>
+CREATE TABLE activity (
+  activity_id bigserial PRIMARY KEY,
+  output_id bigint NOT NULL REFERENCES output_project,
+  seq_code varchar(10) NOT NULL,     <span class="k">-- 1,2,3</span>
+  UNIQUE (fiscal_year, output_id, seq_code) );
+
+<span class="k">-- ===== ชั้น 8: รายการ (Bis65a002) =====</span>
+CREATE TABLE item (
+  item_id bigserial PRIMARY KEY,
+  activity_id bigint NOT NULL REFERENCES activity,
+  parent_item_id bigint NULL REFERENCES item,    <span class="k">-- self: ระดับชั้น</span>
+  expense_cat_id smallint NOT NULL REFERENCES ref_expense_category,
+  area_id integer NULL REFERENCES ref_area,
+  item_level smallint NOT NULL DEFAULT 1 CHECK (item_level BETWEEN 1 AND 3),
+  code varchar(6) NOT NULL,          <span class="k">-- 000337</span>
+  UNIQUE (fiscal_year, code) );</pre>
+  </div>
+
+  <div class="card">
+    <h2>กฎสำคัญ (Business rules)</h2>
+    <ol>
+      <li>บังคับลำดับการสร้าง: output ต้องมี agency_service_target ก่อน → activity ต้องมี output → item ต้องมี activity</li>
+      <li><code>op_type</code> ต้องตรงกับ prefix ของ <code>acct_code</code> (00-/07-/08-)</li>
+      <li>ลบ (hard-delete) เฉพาะผู้มีสิทธิ์ + เมื่อไม่มี child (ON DELETE RESTRICT) — ปกติใช้ปิด (CLOSED)</li>
+      <li>ยกยอดข้ามปี: copy ทั้งสายโซ่จาก fiscal_year เดิม → ปีใหม่</li>
+      <li><code>area_id</code> (GPS) บังคับเฉพาะรายการ ครุภัณฑ์/ที่ดิน/สิ่งก่อสร้าง (e-BGIS)</li>
+      <li>BBL: ใช้ตารางเดียวกัน แต่คุมสิทธิ์แก้ไขที่ application layer ตาม <code>agency.system_type</code></li>
+    </ol>
+  </div>
+
+  <div class="card">
+    <h2>จุดที่ต้องยืนยันก่อน finalize</h2>
+    <div class="note">
+      • เป้าหมายบริการหน่วยงาน → กระทรวง เป็น <b>M:1 หรือ M:N</b>? (ร่างนี้ใช้ M:1)<br>
+      • ผลผลิต/โครงการ ผูกกับแผนงานโดยตรง หรือผ่านเป้าหมายบริการ? (ร่างนี้ผูกตรงทั้งคู่)<br>
+      • รหัส (<code>code</code>) ให้ระบบ gen อัตโนมัติ หรือผู้ใช้กรอกเอง?<br>
+      • ต้องเก็บ audit trail/version เต็มหรือแค่ created/updated?<br>
+      • ตารางตัวเงิน/งบประมาณ (จอ Bis65b003 MTEF) แยกเป็น <code>budget_amount</code> ในเฟสถัดไป
+    </div>
+  </div>
+
+  <footer>ร่างเพื่อการพัฒนาระบบ · จากเอกสารอบรม 11 มิ.ย. 2569 · ตรวจสอบกับผู้ใช้งานจริงก่อน implement</footer>
+</div>
+</body>
+</html>

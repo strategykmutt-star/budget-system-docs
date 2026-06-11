@@ -1,0 +1,224 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>เครื่องคิดเลขค่า K — Escalation Factor</title>
+<style>
+  :root{--ink:#1f2937;--muted:#64748b;--line:#e2e8f0;--teal:#0e7c86;--tealbg:#eef7f8;--soft:#f8fafc;
+        --warn:#fffbeb;--warnln:#fcd34d;--up:#0e7c86;--down:#b91c1c;--flat:#64748b;}
+  *{box-sizing:border-box}
+  body{font-family:'Sarabun','Noto Sans Thai',system-ui,'Segoe UI',sans-serif;color:var(--ink);
+       margin:0;background:#f1f5f9;line-height:1.55}
+  .wrap{max-width:780px;margin:0 auto;padding:26px 18px 60px}
+  h1{font-size:23px;margin:0 0 4px}
+  .sub{color:var(--muted);margin:0 0 16px;font-size:13.5px}
+  .card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:20px 22px;margin:14px 0;box-shadow:0 1px 2px rgba(15,23,42,.04)}
+  label{font-weight:700;font-size:13.5px;display:block;margin:0 0 6px}
+  select,input{font-family:inherit;font-size:14px;padding:9px 10px;border:1px solid #cbd5e1;border-radius:9px;width:100%;background:#fff}
+  select:focus,input:focus{outline:2px solid var(--teal);border-color:var(--teal)}
+  .formula{background:var(--soft);border:1px dashed #cbd5e1;border-radius:9px;padding:10px 12px;margin:10px 0;font-size:13.5px}
+  .formula b{color:var(--teal)}
+  table{width:100%;border-collapse:collapse;margin:8px 0}
+  th,td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:left;font-size:13px;vertical-align:middle}
+  th{color:var(--muted);font-weight:700;font-size:12px}
+  .vname{font-weight:700} .vdesc{color:var(--muted);font-size:11.5px}
+  .num{width:110px}
+  .btn{background:var(--teal);color:#fff;border:none;border-radius:10px;padding:11px 18px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit}
+  .btn:hover{background:#0b5e66}
+  .res{display:flex;gap:14px;flex-wrap:wrap;align-items:stretch;margin-top:6px}
+  .kbox{flex:1;min-width:150px;background:var(--tealbg);border:1px solid var(--teal);border-radius:12px;padding:14px 16px;text-align:center}
+  .kbox .lab{font-size:12px;color:#0b5e66} .kbox .val{font-size:30px;font-weight:800;color:#0b5e66;line-height:1.2}
+  .status{font-size:13px;margin-top:4px}
+  .pay-up{color:var(--up)} .pay-down{color:var(--down)} .pay-flat{color:var(--flat)}
+  .money{flex:2;min-width:220px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px}
+  .money .big{font-size:26px;font-weight:800}
+  .radios{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;margin:6px 0}
+  .radios label{font-weight:400;display:flex;gap:6px;align-items:center;margin:0}
+  .warn{background:var(--warn);border:1px solid var(--warnln);border-radius:10px;padding:11px 13px;font-size:12.5px;margin:10px 0}
+  .alt{color:var(--muted);font-size:12.5px;margin-top:6px}
+  .err{color:var(--down);font-size:13px;margin-top:8px}
+  footer{color:var(--muted);font-size:12px;text-align:center;margin-top:16px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>เครื่องคิดเลขค่า K (Escalation Factor)</h1>
+  <p class="sub">สูตร <b>K = ค่าคงที่ + Σ ( สัมประสิทธิ์ × ดัชนีเดือนส่งมอบ / ดัชนีเดือนเปิดซอง )</b> · เงินชดเชย P = Po × K · ข้อมูล data-driven จาก kvalue_formulas.json</p>
+
+  <div class="warn">⚠️ ตัวเลขสูตรถอดจากภาพสแกน (OCR) — <b>ตรวจทานกับต้นฉบับ/หนังสือ สงป. ก่อนใช้จริง</b> · วิธีคิดเงินชดเชยมี 2 แนวทาง (เลือกด้านล่าง) ยังต้องยืนยันแนวทางที่ระเบียบกำหนด · ครบ 35/35 สูตร (ตรวจกับภาพความละเอียดสูงแล้ว)</div>
+
+  <div class="card">
+    <label for="fsel">เลือกประเภทงาน / สูตร</label>
+    <select id="fsel"></select>
+    <div class="formula" id="fexpr"></div>
+
+    <label style="margin-top:6px">กรอกดัชนีราคา (จากกระทรวงพาณิชย์ price.moc.go.th)</label>
+    <table id="vtab">
+      <thead><tr><th>ตัวแปร</th><th>ดัชนีเดือนส่งมอบ (t)</th><th>ดัชนีเดือนเปิดซอง (o)</th></tr></thead>
+      <tbody id="vbody"></tbody>
+    </table>
+
+    <label for="pval" style="margin-top:10px">ค่างานในข่ายค่า K (บาท)</label>
+    <input id="pval" class="num" style="width:200px" type="number" min="0" step="0.01" placeholder="เช่น 950000">
+
+    <div style="margin-top:10px">
+      <label>วิธีคิดเงินชดเชย</label>
+      <div class="radios">
+        <label><input type="radio" name="method" value="std" checked> มาตรฐาน (K−1) เต็ม เมื่อ |K−1| &gt; 0.04</label>
+        <label><input type="radio" name="method" value="edge"> หักขอบ (K−1.04) / (K−0.96)</label>
+      </div>
+    </div>
+
+    <button class="btn" id="calc" style="margin-top:8px">คำนวณ</button>
+    <div class="err" id="err"></div>
+  </div>
+
+  <div class="card" id="resCard" style="display:none">
+    <div class="res">
+      <div class="kbox">
+        <div class="lab">ค่า K</div>
+        <div class="val" id="kval">–</div>
+        <div class="status" id="kstatus"></div>
+      </div>
+      <div class="money">
+        <div class="lab" style="color:var(--muted);font-size:12px" id="mlabel">เงินชดเชย</div>
+        <div class="big" id="mval">–</div>
+        <div class="alt" id="malt"></div>
+      </div>
+    </div>
+  </div>
+
+  <footer>จากเอกสารอบรม 2.2 ค่า K · มติ ครม. ว109 (22 ส.ค. 2532) / ว194 (14 มิ.ย. 2559) · ยื่นขอภายใน 90 วัน · วงเงิน &gt; 50 ล้านบาทต้องผ่าน สงป.</footer>
+</div>
+
+<script>
+const VARS = {
+  I:"ค่าแรง/แรงงาน", C:"ซีเมนต์", M:"วัสดุก่อสร้าง (ไม่รวมเหล็ก/ซีเมนต์)", S:"เหล็ก", A:"แอสฟัลต์",
+  E:"น้ำมันเชื้อเพลิง", F:"น้ำมันดีเซล/ขนส่ง", G:"เหล็กแผ่นเรียบ/เหล็กกล้า", GIP:"ท่อเหล็กอาบสังกะสี",
+  AC:"ท่อ Asbestos Cement", PVC:"ท่อ PVC", PE:"ท่อ HDPE", W:"สายไฟฟ้า"
+};
+const CATS = {1:"งานอาคาร",2:"งานดิน",3:"งานทาง",4:"งานชลประทาน",5:"งานระบบสาธารณูปโภค"};
+const DEAD = {low:0.96, high:1.04};
+const F = [
+ {code:"K1",cat:1,name:"งานอาคาร",constant:0.25,terms:[[0.15,"I"],[0.10,"C"],[0.40,"M"],[0.10,"S"]]},
+ {code:"K2.1",cat:2,name:"งานดิน",constant:0.30,terms:[[0.10,"I"],[0.40,"E"],[0.20,"F"]]},
+ {code:"K2.2",cat:2,name:"งานหินเรียง/หินทิ้ง",constant:0.40,terms:[[0.20,"I"],[0.20,"M"],[0.20,"F"]]},
+ {code:"K2.3",cat:2,name:"งานเจาะระเบิดหิน",constant:0.45,terms:[[0.15,"I"],[0.10,"M"],[0.20,"E"],[0.10,"F"]]},
+ {code:"K3.1",cat:3,name:"Prime/Tack/Seal Coat",constant:0.30,terms:[[0.40,"A"],[0.20,"E"],[0.10,"F"]]},
+ {code:"K3.2",cat:3,name:"Surface Treatment/Slurry Seal",constant:0.30,terms:[[0.10,"M"],[0.30,"A"],[0.20,"E"],[0.10,"F"]]},
+ {code:"K3.3",cat:3,name:"Asphaltic Concrete/Penetration Macadam",constant:0.30,terms:[[0.10,"M"],[0.40,"A"],[0.10,"E"],[0.10,"F"]]},
+ {code:"K3.4",cat:3,name:"ผิวถนนคอนกรีตเสริมเหล็ก",constant:0.30,terms:[[0.10,"I"],[0.35,"C"],[0.10,"M"],[0.15,"S"]]},
+ {code:"K3.5",cat:3,name:"ท่อระบายน้ำ คสล./บ่อพัก",constant:0.35,terms:[[0.20,"I"],[0.15,"C"],[0.15,"M"],[0.15,"S"]]},
+ {code:"K3.6",cat:3,name:"โครงสร้างคอนกรีตเสริมเหล็ก",constant:0.30,terms:[[0.10,"I"],[0.15,"C"],[0.20,"M"],[0.25,"S"]]},
+ {code:"K3.7",cat:3,name:"โครงสร้างเหล็ก",constant:0.25,terms:[[0.10,"I"],[0.05,"C"],[0.20,"M"],[0.40,"S"]]},
+ {code:"K4.1",cat:4,name:"อาคารชลประทาน (ไม่รวมบานเหล็ก)",constant:0.40,terms:[[0.20,"I"],[0.10,"C"],[0.10,"M"],[0.20,"S"]]},
+ {code:"K4.2",cat:4,name:"อาคารชลประทาน (รวมบานเหล็ก)",constant:0.35,terms:[[0.20,"I"],[0.10,"C"],[0.10,"M"],[0.25,"S"]]},
+ {code:"K4.3",cat:4,name:"บานระบาย TRASHRACK/STEEL LINER",constant:0.35,terms:[[0.20,"I"],[0.45,"G"]]},
+ {code:"K4.4",cat:4,name:"เหล็กเสริมคอนกรีต/ANCHOR BAR",constant:0.25,terms:[[0.15,"I"],[0.60,"S"]]},
+ {code:"K4.5",cat:4,name:"คอนกรีตไม่รวมเหล็ก",constant:0.40,terms:[[0.15,"I"],[0.25,"C"],[0.20,"M"]]},
+ {code:"K4.6",cat:4,name:"งานเจาะ (ชลประทาน)",constant:0.40,terms:[[0.20,"I"],[0.10,"M"],[0.20,"E"],[0.10,"F"]]},
+ {code:"K4.7",cat:4,name:"งานอัดฉีดน้ำปูน (Ct/Co)",constant:0.00,terms:[[1.00,"C"]]},
+ {code:"K5.1.1",cat:5,name:"ท่อ AC/PVC (ผลิตท่อ+อุปกรณ์เอง)",constant:0.50,terms:[[0.25,"I"],[0.25,"M"]]},
+ {code:"K5.1.2",cat:5,name:"ท่อ AC",constant:0.40,terms:[[0.10,"I"],[0.10,"M"],[0.40,"AC"]]},
+ {code:"K5.1.3",cat:5,name:"ท่อ PVC",constant:0.40,terms:[[0.10,"I"],[0.10,"M"],[0.40,"PVC"]]},
+ {code:"K5.2.1",cat:5,name:"ท่อเหล็กเหนียว",constant:0.40,terms:[[0.10,"I"],[0.15,"M"],[0.20,"E"],[0.15,"F"]]},
+ {code:"K5.2.2",cat:5,name:"Transmission Conduit",constant:0.40,terms:[[0.10,"I"],[0.10,"M"],[0.10,"E"],[0.30,"GIP"]]},
+ {code:"K5.2.3",cat:5,name:"ท่อ HDPE",constant:0.50,terms:[[0.10,"I"],[0.10,"M"],[0.30,"PE"]]},
+ {code:"K5.3",cat:5,name:"อุโมงค์ส่งน้ำ/Secondary Lining",constant:0.40,terms:[[0.10,"I"],[0.15,"E"],[0.35,"GIP"]]},
+ {code:"K5.4",cat:5,name:"ท่อ PVC หุ้มคอนกรีต",constant:0.30,terms:[[0.10,"I"],[0.20,"C"],[0.05,"M"],[0.05,"S"],[0.30,"PVC"]]},
+ {code:"K5.5",cat:5,name:"ท่อ PVC กลบทราย",constant:0.25,terms:[[0.05,"I"],[0.05,"M"],[0.65,"PVC"]]},
+ {code:"K5.6",cat:5,name:"ท่อเหล็กอาบสังกะสี",constant:0.25,terms:[[0.25,"I"],[0.50,"GIP"]]},
+ {code:"K5.7.1",cat:5,name:"กฟผ. สายส่ง+อุปกรณ์",constant:0.60,terms:[[0.25,"I"],[0.15,"F"]]},
+ {code:"K5.7.2",cat:5,name:"กฟผ. ฐานราก/Boundary Post",constant:0.35,terms:[[0.20,"I"],[0.20,"C"],[0.10,"S"],[0.15,"F"]]},
+ {code:"K5.7.3",cat:5,name:"กฟผ. ฐานรากสถานีไฟฟ้าย่อย",constant:0.50,terms:[[0.20,"I"],[0.15,"C"],[0.15,"S"]]},
+ {code:"K5.8.1",cat:5,name:"เสาเข็มอัดแรงสำเร็จรูป",constant:0.35,terms:[[0.15,"I"],[0.20,"C"],[0.30,"S"]]},
+ {code:"K5.8.2",cat:5,name:"เสาเข็ม Cast in Place",constant:0.30,terms:[[0.10,"I"],[0.25,"C"],[0.35,"S"]]},
+ {code:"K5.9.1",cat:5,name:"สายส่ง 69-115KV (ผู้รับจ้างจัดหาเอง)",constant:0.80,terms:[[0.05,"I"],[0.10,"M"],[0.05,"F"]]},
+ {code:"K5.9.2",cat:5,name:"สายส่ง 69-115KV (ผู้ว่าจ้างจัดหาวัสดุ)",constant:0.45,terms:[[0.05,"I"],[0.20,"M"],[0.05,"F"],[0.25,"W"]]}
+];
+
+const $ = id => document.getElementById(id);
+const sel = $("fsel");
+let curCat = null;
+F.forEach((f,i)=>{
+  if(f.cat!==curCat){ curCat=f.cat; const og=document.createElement("optgroup"); og.label="หมวด "+f.cat+" · "+CATS[f.cat]; og.id="og"+f.cat; sel.appendChild(og); }
+  const o=document.createElement("option"); o.value=i; o.textContent=f.code+" — "+f.name;
+  sel.querySelector("#og"+f.cat).appendChild(o);
+});
+
+function exprText(f){
+  let s="K = "+f.constant.toFixed(2);
+  f.terms.forEach(t=> s+=" + "+t[0].toFixed(2)+"·("+t[1]+"t/"+t[1]+"o)");
+  return s;
+}
+function uniqueVars(f){ const seen=[]; f.terms.forEach(t=>{ if(!seen.includes(t[1])) seen.push(t[1]); }); return seen; }
+
+function render(){
+  const f=F[+sel.value];
+  $("fexpr").innerHTML="<b>"+f.code+"</b> · "+f.name+"<br>"+exprText(f);
+  const tb=$("vbody"); tb.innerHTML="";
+  uniqueVars(f).forEach(v=>{
+    const tr=document.createElement("tr");
+    tr.innerHTML='<td><span class="vname">'+v+'</span><br><span class="vdesc">'+(VARS[v]||"")+'</span></td>'+
+      '<td><input class="num" type="number" step="0.01" data-v="'+v+'" data-k="t" placeholder="t"></td>'+
+      '<td><input class="num" type="number" step="0.01" data-v="'+v+'" data-k="o" placeholder="o"></td>';
+    tb.appendChild(tr);
+  });
+  $("resCard").style.display="none"; $("err").textContent="";
+}
+sel.addEventListener("change",render);
+
+function fmt(n){ return n.toLocaleString("th-TH",{minimumFractionDigits:2,maximumFractionDigits:2}); }
+
+$("calc").addEventListener("click",()=>{
+  const f=F[+sel.value]; $("err").textContent="";
+  const val={};
+  let bad=null;
+  document.querySelectorAll("#vbody input").forEach(inp=>{
+    const v=inp.dataset.v, k=inp.dataset.k, x=parseFloat(inp.value);
+    if(isNaN(x)||x<=0){ bad=v; }
+    (val[v]=val[v]||{})[k]=x;
+  });
+  if(bad){ $("err").textContent="กรุณากรอกดัชนี t และ o ของตัวแปร "+bad+" ให้เป็นตัวเลขมากกว่า 0"; return; }
+
+  let K=f.constant;
+  f.terms.forEach(t=> K += t[0]*(val[t[1]].t/val[t[1]].o));
+  const Kr=Math.round(K*1000)/1000;
+
+  // status
+  let st, cls;
+  if(Kr>=DEAD.low && Kr<=DEAD.high){ st="อยู่ในช่วง ±4% (0.96–1.04) → ไม่จ่าย/ไม่เรียกคืน"; cls="pay-flat"; }
+  else if(Kr>DEAD.high){ st="K &gt; 1.04 → จ่ายเงินเพิ่มให้ผู้รับจ้าง"; cls="pay-up"; }
+  else { st="K &lt; 0.96 → เรียกเงินคืนจากผู้รับจ้าง"; cls="pay-down"; }
+
+  $("kval").textContent=Kr.toFixed(3);
+  $("kstatus").innerHTML='<span class="'+cls+'">'+st+'</span>';
+
+  const P=parseFloat($("pval").value);
+  const method=document.querySelector('input[name=method]:checked').value;
+  const inBand = (Kr>=DEAD.low && Kr<=DEAD.high);
+
+  function comp(m){
+    if(inBand) return 0;
+    if(m==="std") return (Kr-1)*P;
+    return Kr>DEAD.high ? (Kr-DEAD.high)*P : (Kr-DEAD.low)*P;
+  }
+
+  if(isNaN(P)||P<0){
+    $("mlabel").textContent="เงินชดเชย"; $("mval").textContent="— (กรอกค่างาน)"; $("malt").textContent="";
+  } else {
+    const c=comp(method), other=comp(method==="std"?"edge":"std");
+    let lab = inBand ? "ไม่มีการจ่าย/เรียกคืน" : (c>=0 ? "จ่ายเงินเพิ่ม (บาท)" : "เรียกเงินคืน (บาท)");
+    $("mlabel").textContent=lab;
+    $("mval").innerHTML='<span class="'+(inBand?"pay-flat":(c>=0?"pay-up":"pay-down"))+'">'+fmt(Math.abs(c))+'</span>';
+    $("malt").textContent = inBand ? "—" :
+      ("อีกวิธีหนึ่ง ("+(method==="std"?"หักขอบ ±4%":"(K−1) เต็ม")+") = "+fmt(Math.abs(other))+" บาท");
+  }
+  $("resCard").style.display="block";
+});
+
+render();
+</script>
+</body>
+</html>
