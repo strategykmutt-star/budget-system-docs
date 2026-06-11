@@ -48,6 +48,17 @@
   .q{background:var(--navy);color:#fff;border-radius:14px;padding:16px 18px}
   .q .t{font-size:13px;color:#9fb6d6} .q .b{font-size:15px;font-weight:700;margin-top:4px}
   .note{background:#fffbeb;border:1px solid #fcd34d;border-radius:12px;padding:14px 16px;font-size:13px;color:#5b4a18;margin-top:14px}
+  .lead{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px 22px;font-size:14.5px;color:#334155}
+  .lead b{color:var(--navy)}
+  .use{font-size:12px;color:var(--teal);font-weight:700;margin:2px 0 12px}
+  .gloss{display:grid;grid-template-columns:1fr 1fr;gap:12px 22px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 22px;font-size:13px}
+  .gloss .term{font-weight:700;color:var(--navy)}
+  .gloss .def{color:#475569}
+  .steps{background:var(--navy);color:#fff;border-radius:16px;padding:18px 24px}
+  .steps ol{margin:0;padding-left:22px;font-size:14px}
+  .steps ol li{margin:9px 0;color:#d7e3f2}
+  .steps b{color:#fff}
+  @media(max-width:760px){.gloss{grid-template-columns:1fr}}
   footer{text-align:center;color:var(--muted);font-size:12.5px;margin-top:34px}
   @media(max-width:760px){.stats,.cards,.three{grid-template-columns:1fr 1fr}.grid2{grid-template-columns:1fr}.hero h1{font-size:24px}}
 </style>
@@ -70,24 +81,32 @@
     </div>
 
     <section>
+      <h2>บทสรุปผู้บริหาร</h2>
+      <div class="lead">เอกสารชุดนี้คือ<b>ผลการศึกษาและวิเคราะห์จากการอบรม</b> "มาตรฐานงบประมาณ และระบบสารสนเทศด้านการงบประมาณ" ของสำนักงบประมาณ จัดทำขึ้นเพื่อเป็น<b>ฐานในการพัฒนา/ปรับปรุงระบบบริหารงบประมาณ</b> โดยถอด <b>โครงสร้างการกำหนดรหัส</b> · <b>วิธีจัดการข้อมูลทะเบียน (เพิ่ม/แก้ไข/ปิด/ลบ)</b> · <b>สูตรคำนวณค่า K</b> ออกมาเป็นแบบที่ทีมพัฒนานำไปสร้างระบบได้ทันที พร้อมระบุจุดที่ต้องยืนยันกับสำนักงบประมาณก่อนใช้งานจริง</div>
+    </section>
+
+    <section>
       <h2>ผลงานที่จัดทำ</h2>
       <div class="cards">
         <div class="card">
           <div class="ic">🗂️</div>
           <h3>โครงสร้างระบบทะเบียน</h3>
           <p>แผนภาพโครงสร้างฐานข้อมูลทะเบียน 8 ชั้น (กระทรวง → … → ผลผลิต/โครงการ → กิจกรรม → รายการ) พร้อมแบบตารางข้อมูลสำหรับทีมพัฒนา</p>
+          <div class="use">ใช้ต่อ: เป็นพิมพ์เขียวให้ทีมพัฒนาสร้างฐานข้อมูลทะเบียน</div>
           <a class="btn" href="registry/er-diagram.html">เปิดแผนภาพโครงสร้าง</a>
         </div>
         <div class="card">
           <div class="ic">🧮</div>
           <h3>เครื่องคิดเลขค่า K</h3>
           <p>คำนวณเงินชดเชยค่างานก่อสร้างจากสูตรค่า K ครบ 35 สูตร เลือกประเภทงาน → กรอกดัชนี → ได้ค่า K</p>
+          <div class="use">ใช้ต่อ: เป็นต้นแบบฟังก์ชันคำนวณที่จะฝังในระบบ</div>
           <a class="btn" href="kvalue/calculator.html">เปิดเครื่องคิดเลข</a>
         </div>
         <div class="card">
           <div class="ic">📑</div>
           <h3>สรุปครบทุกหน้า</h3>
           <p>สารบัญ + สรุปทีละหน้าของเอกสารอบรมทั้ง 3 ไฟล์ (174 หน้า) ในมุมมองการพัฒนาระบบ</p>
+          <div class="use">ใช้ต่อ: อ้างอิงรายละเอียดรายหน้าเมื่อต้องตรวจย้อนกลับ</div>
           <a class="btn alt" href="docs/training-summary.md">เปิดสรุป (Markdown)</a>
         </div>
       </div>
@@ -124,6 +143,29 @@
         </div>
       </div>
       <div class="note">⚠️ <b>ข้อควรระวัง:</b> สูตรค่า K ถอดจากเอกสารสแกน — ตรวจความถูกต้องเบื้องต้นแล้ว (ผลรวมสัมประสิทธิ์ทุกสูตร = 1.00) แต่ก่อนนำไปคำนวณจ่ายเงินจริง ควรยืนยัน "สูตร · วิธีคิดเงินชดเชย · นิยามตัวแปร" กับหนังสือสำนักงบประมาณอีกครั้ง</div>
+    </section>
+
+    <section>
+      <h2>อภิธานศัพท์</h2>
+      <div class="gloss">
+        <div><div class="term">ผลผลิต / โครงการ</div><div class="def">หน่วยงบประมาณที่แสดงผลงานหลัก (โครงการ = มีระยะเวลาสิ้นสุด · ผลผลิต = งานประจำต่อเนื่อง)</div></div>
+        <div><div class="term">เป้าหมายบริการ</div><div class="def">ผลลัพธ์/บริการที่กระทรวงหรือหน่วยงานต้องส่งมอบ</div></div>
+        <div><div class="term">ค่า K (Escalation Factor)</div><div class="def">ตัวคูณปรับราคางานก่อสร้างเมื่อราคาวัสดุ/แรงงานเปลี่ยน เพื่อจ่ายเพิ่มหรือเรียกคืนอย่างเป็นธรรม</div></div>
+        <div><div class="term">e-Budgeting / BBL</div><div class="def">ระบบจัดทำงบประมาณของส่วนกลาง (e-Budgeting) และของท้องถิ่น/อปท. (BBL)</div></div>
+        <div><div class="term">ระบบทะเบียน</div><div class="def">ฐานข้อมูลกลางที่เก็บรหัสและรายการของโครงสร้างงบประมาณทุกชั้น</div></div>
+        <div><div class="term">MTEF</div><div class="def">กรอบงบประมาณรายจ่ายล่วงหน้าระยะปานกลาง (ส่วนที่ผูกตัวเงินกับรายการ)</div></div>
+      </div>
+    </section>
+
+    <section>
+      <h2>ขั้นต่อไป / สิ่งที่ต้องตัดสินใจ</h2>
+      <div class="steps">
+        <ol>
+          <li><b>ยืนยันสูตรค่า K และวิธีคิดเงินชดเชย</b> กับสำนักงบประมาณ ก่อนนำไปคำนวณจ่ายเงินจริง</li>
+          <li><b>เคาะคำถามการออกแบบฐานข้อมูล</b> (เช่น การสร้างรหัสอัตโนมัติ, ความสัมพันธ์เป้าหมายบริการ) — รายละเอียดอยู่ในแบบตารางข้อมูล</li>
+          <li><b>อนุมัติแผนพัฒนาเฟสถัดไป</b> — ออกแบบหน้าจอใช้งาน + เชื่อมส่วนตัวเงิน/MTEF เข้ากับทะเบียน</li>
+        </ol>
+      </div>
     </section>
 
     <footer>
