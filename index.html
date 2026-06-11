@@ -50,6 +50,12 @@
   .note{background:#fffbeb;border:1px solid #fcd34d;border-radius:12px;padding:14px 16px;font-size:13px;color:#5b4a18;margin-top:14px}
   .lead{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px 22px;font-size:14.5px;color:#334155}
   .lead b{color:var(--navy)}
+  .feature{display:block;background:var(--navy);border:1px solid var(--teal);border-radius:16px;padding:18px 22px;text-decoration:none;box-shadow:0 6px 18px rgba(16,36,62,.12)}
+  .feature:hover{background:#16304f}
+  .feature .ftag{display:inline-block;background:var(--teal);color:#fff;font-size:11.5px;font-weight:700;padding:2px 11px;border-radius:999px}
+  .feature .ftitle{font-size:18px;font-weight:800;margin:9px 0 3px;color:#fff}
+  .feature .fdesc{font-size:13px;color:#aebfd6}
+  .feature .fgo{color:#5ad1db;font-weight:700;font-size:13.5px;margin-top:9px}
   .use{font-size:12px;color:var(--teal);font-weight:700;margin:2px 0 12px}
   .gloss{display:grid;grid-template-columns:1fr 1fr;gap:12px 22px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px 22px;font-size:13px}
   .gloss .term{font-weight:700;color:var(--navy)}
@@ -79,6 +85,15 @@
     <section>
       <h2>บทสรุปผู้บริหาร</h2>
       <div class="lead">เอกสารชุดนี้คือ<b>ผลการศึกษาและวิเคราะห์จากการอบรม</b> "มาตรฐานงบประมาณ และระบบสารสนเทศด้านการงบประมาณ" ของสำนักงบประมาณ จัดทำขึ้นเพื่อเป็น<b>ฐานในการพัฒนา/ปรับปรุงระบบบริหารงบประมาณ</b> โดยถอด <b>โครงสร้างการกำหนดรหัส</b> · <b>วิธีจัดการข้อมูลทะเบียน (เพิ่ม/แก้ไข/ปิด/ลบ)</b> · <b>สูตรคำนวณค่า K</b> ออกมาเป็นแบบที่ทีมพัฒนานำไปสร้างระบบได้ทันที พร้อมระบุจุดที่ต้องยืนยันกับสำนักงบประมาณก่อนใช้งานจริง</div>
+    </section>
+
+    <section>
+      <a class="feature" href="fd03-design.html">
+        <span class="ftag">⭐ ประเด็นหลัก</span>
+        <div class="ftitle">ออกแบบรหัสโครงการ FD03 ตามต้นแบบ e-Budgeting</div>
+        <div class="fdesc">โครงสร้างรหัสใหม่ TT-NNNNN · จัดการ ปรับชื่อ / ปิด / รหัสซ้ำ · แผนย้ายระบบ</div>
+        <div class="fgo">เปิดดูรายละเอียด →</div>
+      </a>
     </section>
 
     <section>
